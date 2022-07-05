@@ -1,9 +1,5 @@
-import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../Constant/authentication_constant.dart';
@@ -19,6 +15,23 @@ class _SplashScreenState extends State<SplashScreen> {
   /// Use For Rounded Loading Button Controller (Key Word : Use_of_Rounded_Loading_Button)
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
+
+  /// This Widget use For Name And Logo In Button
+  Widget buttonChild({required IconData icon, required String name}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon),
+        SizedBox(
+          width: 10.w,
+        ),
+        Text(
+          name,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,35 +57,101 @@ class _SplashScreenState extends State<SplashScreen> {
         color: Colors.amber,
         alignment: Alignment.center,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              "Assets/ImagesPng/SplashFoxLogo.png",
-
-              /// .h & .w Is Use For Responsive ( Use_Of_ScreenUtils )
-              height: 350.h,
-              width: 350.w,
-              fit: BoxFit.cover,
+            /// Here I setUp SVG picture From Assets (Key Word : Use_of_Flutter_SVG)
+            Padding(
+                padding: const EdgeInsets.only(top: 150).r,
+                child: Image.asset(
+                  "Assets/ImagesPng/Untitled-1.png",
+                  height: 150,
+                  width: 250,
+                )),
+            Text(
+              "Authentication App",
+              style: TextStyle(
+                  fontSize: 25.sp,
+                  color: Colors.deepPurple,
+                  fontWeight: FontWeight.bold),
             ),
-            const Text("Hello Splash"),
             const Spacer(),
 
-            /// Use For Rounded Loading Button (Key Word : Use_of_Rounded_Loading_Button)
-            RoundedLoadingButton(
-              controller: _btnController,
-              onPressed: () async {
-                /// There Is Constant Method Of **googleSignIn()** You Get Data Here Example Print_Data_beloved
-                await googleSignIn().then((value) {
-                  print("User Name = ${value!.user!.displayName}");
-                  print("User Name = ${value.user!.displayName}");
-                  print("User Name = ${value.user!.displayName}");
+            /// This is For Google Login
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0).r,
 
-                  /// This is Use For Stop Loading
-                  _btnController.success();
-                });
-              },
-              child: const Text('Google Login',
-                  style: TextStyle(color: Colors.white)),
-            )
+              /// Use For Rounded Loading Button (Key Word : Use_of_Rounded_Loading_Button)
+              child: RoundedLoadingButton(
+                controller: _btnController,
+                onPressed: () async {
+                  /// There Is Constant Method Of **googleSignIn()** You Get Data Here Example Print_Data_beloved
+                  /// (Key Word : Use_of_Google_Login)
+                  await googleSignIn().then((value) {
+                    print("Google User Name = ${value!.user!.displayName}");
+                    print("Google User Name = ${value.user!.displayName}");
+                    print("Google User Name = ${value.user!.displayName}");
+
+                    /// This is Use For Stop Loading
+                    _btnController.success();
+                  });
+                },
+                child: buttonChild(
+                    icon: Icons.email_rounded, name: "Google Login"),
+              ),
+            ),
+
+            /// This is For FaceBook Login
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0).r,
+
+              /// Use For Rounded Loading Button (Key Word : Use_of_Rounded_Loading_Button)
+              child: RoundedLoadingButton(
+                controller: _btnController,
+                onPressed: () async {
+                  /// There Is Constant Method Of **FaceBookLogin()** You Get Data Here Example Print_Data_beloved
+                  /// (Key Word : Use_of_FaceBook_Login)
+                  /// See Android And Ios SetUp At(https://facebook.meedu.app)
+                  await facebookSignIn().then((value) {
+                    print("FaceBook User Name = ${value!.user!.displayName}");
+                    print("FaceBook User Name = ${value.user!.displayName}");
+                    print("FaceBook User Name = ${value.user!.displayName}");
+
+                    /// This is Use For Stop Loading
+                    _btnController.success();
+                  });
+                },
+                child: buttonChild(
+                    icon: Icons.facebook_rounded, name: "FaceBook Login"),
+              ),
+            ),
+
+            /// This is For Apple Login
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0).r,
+
+              /// Use For Rounded Loading Button (Key Word : Use_of_Rounded_Loading_Button)
+              child: RoundedLoadingButton(
+                controller: _btnController,
+                onPressed: () async {
+                  /// There Is Constant Method Of **FaceBookLogin()** You Get Data Here Example Print_Data_beloved
+                  /// (Key Word : Use_of_FaceBook_Login)
+                  /// See Android And Ios SetUp At(https://facebook.meedu.app)
+                  await appleLogin().then((value) {
+                    print(
+                        "FaceBook User Name = ${value!.email ?? "No Email Access"}");
+                    print(
+                        "FaceBook User Name = ${value.familyName ?? "No Family Name Access"}");
+                    print(
+                        "FaceBook User Name = ${value.givenName ?? "No Given Name Access"}");
+
+                    /// This is Use For Stop Loading
+                    _btnController.success();
+                  });
+                },
+                child:
+                    buttonChild(icon: Icons.apple_rounded, name: "Apple Login"),
+              ),
+            ),
           ],
         ),
       ),

@@ -24,6 +24,7 @@ Future<UserCredential?> googleSignIn() async {
     /// Step : 5 -- Get User Data
     UserCredential result =
         await FirebaseAuth.instance.signInWithCredential(authCredential);
+
     return result;
   } else {
     print("Google SignIn Error There Is No Google Account Or No InterNet");
@@ -65,14 +66,19 @@ Future<UserCredential?> facebookSignIn() async {
   }
 }
 
+/// Before Code YOu should SetUp Facebook Developer Account Documentation In Pub Dev (sign_in_with_apple)
+/// (Key Word : Use_of_Apple_SignIn)
 Future<AuthorizationCredentialAppleID?> appleLogin() async {
   try {
+    /// Step : 1 -- Simply Get AppleData Request & Get Auth Details
     final credential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
     );
+
+    /// Step : 2 -- Get user Data
     return credential;
   } on Exception catch (e) {
     print(e.toString());

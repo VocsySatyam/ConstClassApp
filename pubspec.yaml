@@ -72,6 +72,10 @@ dependencies:
   # (https://pub.dev/packages/rounded_loading_button)
   rounded_loading_button: ^2.1.0
 
+  # This dependency Use For Svg Picture Setup In Flutter (Key Word : Use_of_Flutter_SVG)
+  # (https://pub.dev/packages/flutter_svg)
+  flutter_svg: ^1.1.1+1
+
 
 
 
